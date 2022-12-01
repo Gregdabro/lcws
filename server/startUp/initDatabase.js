@@ -1,20 +1,24 @@
-// 1. У любого пользователя будет как минимум в БД qualities & professions
-// 2. Они будут равны mock данным
-
-const Profession = require("../models/Profession")
-const Quality = require("../models/Quality")
-const professionMock = require("../mock/professions.json")
-const qualityMock = require("../mock/qualities.json")
+const Color = require("../models/Color")
+const colorMock = require("../mock/colors.json")
+const Category = require("../models/Category")
+const categoryMock = require("../mock/categories.json")
+const Product = require("../models/Product")
+const productMock = require("../mock/products.json")
 
 module.exports = async () => {
-    const qualities = await Quality.find()
-    if (qualities.length !== qualityMock.length) {
-        await createInitialEntity(Quality, qualityMock)
+    const colors = await Color.find()
+    if (colors.length !== colorMock.length) {
+        await createInitialEntity(Color, colorMock)
     }
 
-    const professions = await Profession.find()
-    if (professions.length !== professionMock.length) {
-        await createInitialEntity(Profession, professionMock)
+    const categories = await Category.find()
+    if (categories.length !== categoryMock.length) {
+        await createInitialEntity(Category, categoryMock)
+    }
+
+    const products = await Product.find()
+    if (products.length !== productMock.length) {
+        await createInitialEntity(Product, productMock)
     }
 }
 

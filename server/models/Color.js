@@ -9,4 +9,4 @@ const schema = new Schema({
     timestamps: true
 })
 
-module.exports = model("Profession", schema)
+module.exports = model("Color", schema)
