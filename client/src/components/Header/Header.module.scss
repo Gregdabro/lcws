@@ -1,0 +1,21 @@
+.header{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-block: 20px;
+  background-color: var(--primary-color);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  z-index: 4;
+}
+
+.active {
+  position: fixed;
+  animation: slideIn 0.5s ease forwards;
+  background-color: var(--white-color);
+}
+
+@keyframes slideIn {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(0); }
+}

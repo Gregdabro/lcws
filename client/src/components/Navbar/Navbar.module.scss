@@ -1,0 +1,30 @@
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 15px;
+
+  .logo{
+
+    img{}
+  }
+
+  .navLinks{
+    display: flex;
+    gap: 20px;
+    li {
+
+      a{
+        text-transform: capitalize;
+        color: var(--black-color);
+        padding-block: 10px;
+
+        &:hover{
+          color: var(--brown-color);
+        }
+      }
+    }
+  }
+
+}
