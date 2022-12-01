@@ -6,5 +6,6 @@ router.use("/user", require("./user.routes"))
 router.use("/comment", require("./comment.routes"))
 router.use("/quality", require("./quality.routes"))
 router.use("/profession", require("./profession.routes"))
+router.use("/product", require("./product.routes"))
 
 module.exports = router
