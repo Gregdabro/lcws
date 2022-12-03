@@ -14,8 +14,8 @@ class ProductController {
 
     async getAll(req, res, next) {
         try {
-            const list = await Product.find()
-            res.status(200).send(list)
+            const productList = await Product.find()
+            res.status(200).send(productList)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
@@ -24,7 +24,7 @@ class ProductController {
     async getOne(req, res, next) {
         try {
             const {id} = req.params
-            const product = await Product.findById(({_id: id}))
+            const product = await Product.find(({_id: id}))
             res.status(200).send(product)
         } catch (e) {
             next(ApiError.badRequest(e.message))

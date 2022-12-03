@@ -1,28 +1,12 @@
 const express = require("express")
-const Color = require("../models/Color")
 const router = express.Router({ mergeParams: true })
+const colorController = require("../controllers/colorController")
 
-router.get("/", async (req, res) => {
-    try {
-        const list = await Color.find()
-        res.status(200).send(list)
-    } catch (e) {
-        res.status(500).json({
-            message: "На сервере произошла ошибка. Попробуйте позже"
-        })
-    }
-})
+router.post("/", colorController.create)
 
-router.post("/", async (req, res) => {
-    try {
-        const {name} = req.body
-        const color = await Color.create({name})
-        res.status(200).send(color)
-    } catch (e) {
-        res.status(500).json({
-            message: "На сервере произошла ошибка. Попробуйте позже"
-        })
-    }
-})
+router.get("/", colorController.getAll)
+
+router.get("/:id", colorController.getOne)
+
 
 module.exports = router
