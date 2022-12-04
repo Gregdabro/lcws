@@ -12,6 +12,19 @@ class ProductController {
         }
     }
 
+    async update(req, res, next) {
+        try {
+            const { productId } = req.params
+
+            const updatedProduct = await Product.findByIdAndUpdate(productId, req.body, { new: true })
+
+            res.send(updatedProduct)
+
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
     async getAll(req, res, next) {
         try {
             // todo: реализовать поиск по параметру categoryId и colorsIds["1", "2", "3"]

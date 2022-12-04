@@ -113,7 +113,7 @@ router.post("/signInWithPassword", [
             })
         }
 
-        const tokens = tokenService.generate({ _id: existingUser._id })
+        const tokens = await tokenService.generate({ _id: existingUser._id })
         await tokenService.save(existingUser._id, tokens.refreshToken)
 
         res.status(200).send({ ...tokens, userId: existingUser._id })
