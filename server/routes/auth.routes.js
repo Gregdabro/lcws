@@ -26,7 +26,7 @@ router.post("/signUp", [
                     error: {
                         message: "INVALID_DATA",
                         code: 400,
-                        // errors: errors.array()
+                        errors: errors.array()
                     }
                 })
             }
@@ -52,7 +52,7 @@ router.post("/signUp", [
                 password: hashedPassword
             })
 
-            const tokens = tokenService.generate({ _id: newUser._id })
+            const tokens = await tokenService.generate({ _id: newUser._id })
             await tokenService.save(newUser._id, tokens.refreshToken)
 
             res.status(201).send({ ...tokens, userId: newUser._id })
@@ -82,7 +82,7 @@ router.post("/signInWithPassword", [
                 error: {
                     message: "INVALID_DATA",
                     code: 400,
-                    // errors: errors.array()
+                    errors: errors.array()
                 }
             })
         }
@@ -96,7 +96,7 @@ router.post("/signInWithPassword", [
                 error: {
                     message: "EMAIL_NOT_FOUND",
                     code: 400,
-                    // errors: errors.array()
+                    errors: errors.array()
                 }
             })
         }
@@ -108,7 +108,7 @@ router.post("/signInWithPassword", [
                 error: {
                     message: "INVALID_PASSWORD",
                     code: 400,
-                    // errors: errors.array()
+                    errors: errors.array()
                 }
             })
         }
@@ -144,9 +144,7 @@ router.post("/token", async (req, res) => {
             return res.status(401).json({ message: "Unauthorized"})
         }
 
-        const tokens = await tokenService.generate({
-            id: data._id
-        })
+        const tokens = await tokenService.generate({ _id: data._id })
 
         await tokenService.save(data._id, tokens.refreshToken)
 
