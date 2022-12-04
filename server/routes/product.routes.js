@@ -1,7 +1,6 @@
 const express = require("express")
 const router = express.Router({ mergeParams: true })
 const productController = require("../controllers/productController")
-const Product = require("../models/Product");
 const authMiddleware = require("../middleware/authMiddleware")
 
 router.post("/", productController.create)

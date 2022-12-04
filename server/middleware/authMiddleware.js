@@ -17,10 +17,8 @@ module.exports = (req, res, next) => {
             return res.status(401).json({message: 'Unauthorized'})
         }
 
-
         // req.user = data
         console.log("authMiddleware: req.user", req.user)
-
         console.log("Decoded", data)
         next()
 
