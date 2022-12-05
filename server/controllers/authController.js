@@ -62,7 +62,6 @@ class AuthController {
             }
 
             const { email, password } = req.body
-
             const existingUser = await User.findOne({ email })
 
             if (!existingUser) {
@@ -82,6 +81,15 @@ class AuthController {
 
         } catch (e) {
             return next(ApiError.internalError(e.message))
+        }
+    }
+
+    async logout(req, res, next) {
+        try {
+
+        } catch (e) {
+            return next(ApiError.internalError(e.message))
+
         }
     }
 

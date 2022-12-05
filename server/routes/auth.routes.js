@@ -14,6 +14,7 @@ router.post("/login", [
     check("password", "Пароль не может быть пустым").exists()
 ], authController.login)
 
-router.post("/token", authController.check)
+router.post("/logout", authController.logout)
+router.get("/refresh", authController.check)
 
 module.exports = router
