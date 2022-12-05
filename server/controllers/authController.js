@@ -11,26 +11,15 @@ class AuthController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    error: {
-                        message: "INVALID_DATA",
-                        code: 400,
-                        errors: errors.array()
-                    }
-                })
+                return next(ApiError.badRequest("INVALID_DATA"))
+
             }
 
             const {name, email, password} = req.body
-
             const existingUser = await User.findOne({ email })
 
             if (existingUser) {
-                return res.status(400).json({
-                    error: {
-                        message: "EMAIL_EXIST",
-                        code: 400
-                    }
-                })
+                return next(ApiError.badRequest("EMAIL_EXIST"))
             }
 
             const hashedPassword = await bcrypt.hash(password, 12)
@@ -39,7 +28,7 @@ class AuthController {
                 name,
                 email,
                 role: userRole.value,
-                password: hashedPassword
+                password: hashedPassword,
             })
             // todo: реализовать корзину
             // await Basket.create({userId: newUser._id})
@@ -50,7 +39,7 @@ class AuthController {
             res.status(201).send({ ...tokens, userId: newUser._id })
 
         } catch (e) {
-            next(ApiError.internal(e.message))
+            return next(ApiError.internal(e.message))
         }
     }
 
@@ -58,13 +47,7 @@ class AuthController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    error: {
-                        message: "INVALID_DATA",
-                        code: 400,
-                        errors: errors.array()
-                    }
-                })
+                return next(ApiError.badRequest("INVALID_DATA"))
             }
 
             const { email, password } = req.body
@@ -72,25 +55,13 @@ class AuthController {
             const existingUser = await User.findOne({ email })
 
             if (!existingUser) {
-                return res.status(400).send({
-                    error: {
-                        message: "EMAIL_NOT_FOUND",
-                        code: 400,
-                        errors: errors.array()
-                    }
-                })
+                return next(ApiError.badRequest("EMAIL_NOT_FOUND"))
             }
 
             const isPasswordEqual = await bcrypt.compare(password, existingUser.password)
 
             if (!isPasswordEqual) {
-                return res.status(400).send({
-                    error: {
-                        message: "INVALID_PASSWORD",
-                        code: 400,
-                        errors: errors.array()
-                    }
-                })
+                return next(ApiError.badRequest("INVALID_PASSWORD"))
             }
 
             const tokens = await tokenService.generate({ _id: existingUser._id })
@@ -99,7 +70,7 @@ class AuthController {
             res.status(200).send({ ...tokens, userId: existingUser._id })
 
         } catch (e) {
-            next(ApiError.internal(e.message))
+            return next(ApiError.internal(e.message))
         }
     }
 
