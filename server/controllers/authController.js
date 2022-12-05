@@ -1,10 +1,10 @@
-
 const ApiError = require("../error/ApiError")
-const {validationResult} = require("express-validator");
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const {generateUserData} = require("../utils/helpers");
-const tokenService = require("../services/token.service");
+const {validationResult} = require("express-validator")
+const User = require("../models/User")
+const Role = require("../models/Role")
+const Basket = require("../models/Basket")
+const bcrypt = require("bcryptjs")
+const tokenService = require("../services/token.service")
 
 class AuthController {
     async registration(req, res, next) {
@@ -20,7 +20,7 @@ class AuthController {
                 })
             }
 
-            const {email, password} = req.body
+            const {name, email, password} = req.body
 
             const existingUser = await User.findOne({ email })
 
@@ -34,14 +34,17 @@ class AuthController {
             }
 
             const hashedPassword = await bcrypt.hash(password, 12)
-
+            const userRole = await Role.findOne({value: "USER"})
             const newUser = await User.create({
-                ...generateUserData(),
-                ...req.body,
+                name,
+                email,
+                role: userRole.value,
                 password: hashedPassword
             })
+            // todo: реализовать корзину
+            // await Basket.create({userId: newUser._id})
 
-            const tokens = await tokenService.generate({ _id: newUser._id })
+            const tokens = await tokenService.generate({ _id: newUser._id, email, role: newUser.role})
             await tokenService.save(newUser._id, tokens.refreshToken)
 
             res.status(201).send({ ...tokens, userId: newUser._id })
