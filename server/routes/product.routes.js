@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router({ mergeParams: true })
 const productController = require("../controllers/productController")
-const authMiddleware = require("../middleware/authMiddleware")
+const checkRoleMiddleware = require("../middleware/checkRoleMiddleware")
 
-router.post("/", productController.create)
-router.patch("/:productId", productController.update)
-router.get("/", authMiddleware, productController.getAll)
+router.post("/", checkRoleMiddleware("ADMIN"), productController.create)
+router.patch("/:productId", checkRoleMiddleware("ADMIN"), productController.update)
+router.delete("/:productId", checkRoleMiddleware("ADMIN"), productController.remove)
+router.get("/",  productController.getAll)
 router.get("/:id",productController.getOne)
 
 module.exports = router

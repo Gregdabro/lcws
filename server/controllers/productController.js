@@ -8,7 +8,7 @@ class ProductController {
             const product = await Product.create({ name, image, category, colors, rate, price, description, isFavorite })
             res.status(200).send(product)
         } catch (e) {
-            next(ApiError.badRequest(e.message))
+            next(ApiError.badRequestError(e.message))
         }
     }
 
@@ -21,7 +21,21 @@ class ProductController {
             res.send(updatedProduct)
 
         } catch (e) {
-            next(ApiError.badRequest(e.message))
+            next(ApiError.badRequestError(e.message))
+        }
+    }
+
+    async remove(req, res, next) {
+        try {
+            const { productId } = req.params
+
+            const removedProduct = await Product.findByIdAndUpdate(productId)
+
+            await removedProduct.remove()
+            return res.send(null)
+
+        } catch (e) {
+            next(ApiError.badRequestError(e.message))
         }
     }
 
@@ -31,7 +45,7 @@ class ProductController {
             const productList = await Product.find()
             res.status(200).send(productList)
         } catch (e) {
-            next(ApiError.badRequest(e.message))
+            next(ApiError.badRequestError(e.message))
         }
     }
 
@@ -41,7 +55,7 @@ class ProductController {
             const product = await Product.findById(({_id: id}))
             res.status(200).send(product)
         } catch (e) {
-            next(ApiError.badRequest(e.message))
+            next(ApiError.badRequestError(e.message))
         }
     }
 

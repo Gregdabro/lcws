@@ -1,9 +1,8 @@
 const ApiError = require("../error/ApiError")
-const {validationResult} = require("express-validator")
 const User = require("../models/User")
 const Role = require("../models/Role")
-const Basket = require("../models/Basket")
 const bcrypt = require("bcryptjs")
+const {validationResult} = require("express-validator")
 const tokenService = require("../services/token.service")
 
 class AuthController {
@@ -20,7 +19,7 @@ class AuthController {
                 })
             }
 
-            const {name, email, password} = req.body
+            const {name, email, password, role} = req.body
             const existingUser = await User.findOne({ email })
 
             if (existingUser) {
@@ -32,7 +31,7 @@ class AuthController {
             const newUser = await User.create({
                 name,
                 email,
-                role: userRole.value,
+                role: role || userRole.value,
                 password: hashedPassword,
             })
             // todo: реализовать корзину
@@ -86,7 +85,7 @@ class AuthController {
 
     async logout(req, res, next) {
         try {
-
+            // todo: реализовать logout
         } catch (e) {
             return next(ApiError.internalError(e.message))
 

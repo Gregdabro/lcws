@@ -7,4 +7,4 @@ const schema = new Schema({
     timestamps: true
 })
 
-module.exports = model("Basket", schema)
+module.exports = model("Cart", schema)

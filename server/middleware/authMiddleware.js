@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
     if (req.method === "OPTIONS") {
         return next()
     }
-
+// todo: обработать ошибки
     try {
         const token = req.headers.authorization.split(" ")[1]
         if (!token) {
@@ -12,14 +12,13 @@ module.exports = (req, res, next) => {
         }
 
         const data = tokenService.validateAccess(token)
-
+        console.log("authMiddleware: data", data)
         if (!data) {
             return res.status(401).json({message: 'Unauthorized'})
         }
 
-        // req.user = data
-        console.log("authMiddleware: req.user", req.user)
-        console.log("Decoded", data)
+        req.user = data
+
         next()
 
     } catch (e) {
