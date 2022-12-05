@@ -1,21 +1,22 @@
-class ApiError extends Error {
+module.exports = class ApiError extends Error {
+    status;
+    errors;
+
     constructor(status, message) {
         super();
-        this.status = status
-        this.message = message
+        this.status = status;
+        this.message = message;
     }
 
-    static badRequest(message) {
-        return new ApiError(400, message)
+    static unauthorizedError() {
+        return new ApiError(401, "UNAUTHORIZED")
     }
 
-    static internal(message) {
-        return new ApiError(500, message)
+    static badRequestError(message) {
+        return new ApiError(400, message);
     }
 
-    static forbidden(message) {
-        return new ApiError(403, message)
+    static internalError(message) {
+        return new ApiError(500, "Непредвиденная ошибка", message);
     }
 }
-
-module.exports = ApiError

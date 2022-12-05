@@ -11,15 +11,20 @@ class AuthController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return next(ApiError.badRequest("INVALID_DATA"))
-
+                return res.status(400).json({
+                    error: {
+                        message: "INVALID_DATA",
+                        code: 400,
+                        errors: errors.array()
+                    }
+                })
             }
 
             const {name, email, password} = req.body
             const existingUser = await User.findOne({ email })
 
             if (existingUser) {
-                return next(ApiError.badRequest("EMAIL_EXIST"))
+                return next(ApiError.badRequestError("EMAIL_EXIST"))
             }
 
             const hashedPassword = await bcrypt.hash(password, 12)
@@ -39,7 +44,7 @@ class AuthController {
             res.status(201).send({ ...tokens, userId: newUser._id })
 
         } catch (e) {
-            return next(ApiError.internal(e.message))
+            return next(ApiError.internalError(e.message))
         }
     }
 
@@ -47,7 +52,13 @@ class AuthController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return next(ApiError.badRequest("INVALID_DATA"))
+                return res.status(400).json({
+                    error: {
+                        message: "INVALID_DATA",
+                        code: 400,
+                        errors: errors.array()
+                    }
+                })
             }
 
             const { email, password } = req.body
@@ -55,13 +66,13 @@ class AuthController {
             const existingUser = await User.findOne({ email })
 
             if (!existingUser) {
-                return next(ApiError.badRequest("EMAIL_NOT_FOUND"))
+                return next(ApiError.badRequestError("EMAIL_NOT_FOUND"))
             }
 
             const isPasswordEqual = await bcrypt.compare(password, existingUser.password)
 
             if (!isPasswordEqual) {
-                return next(ApiError.badRequest("INVALID_PASSWORD"))
+                return next(ApiError.badRequestError("INVALID_PASSWORD"))
             }
 
             const tokens = await tokenService.generate({ _id: existingUser._id })
@@ -70,7 +81,7 @@ class AuthController {
             res.status(200).send({ ...tokens, userId: existingUser._id })
 
         } catch (e) {
-            return next(ApiError.internal(e.message))
+            return next(ApiError.internalError(e.message))
         }
     }
 
@@ -81,7 +92,7 @@ class AuthController {
             const dbToken = await tokenService.findToken(refreshToken)
 
             if (!data || !dbToken || data._id !== dbToken?.user?.toString()) {
-                return res.status(401).json({ message: "Unauthorized"})
+                return next(ApiError.unauthorizedError())
             }
 
             const tokens = await tokenService.generate({ _id: data._id })
@@ -91,7 +102,8 @@ class AuthController {
             res.status(200).send({ ...tokens, userId: data._id })
 
         } catch (e) {
-            next(ApiError.internal(e.message))
+            return next(ApiError.internalError(e.message))
+
         }
     }
 
