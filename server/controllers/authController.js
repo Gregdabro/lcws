@@ -73,7 +73,7 @@ class AuthController {
                 return next(ApiError.badRequestError("INVALID_PASSWORD"))
             }
 
-            const tokens = await tokenService.generate({ _id: existingUser._id })
+            const tokens = await tokenService.generate({ _id: existingUser._id, email, role: existingUser.role })
             await tokenService.save(existingUser._id, tokens.refreshToken)
 
             res.status(200).send({ ...tokens, userId: existingUser._id })
@@ -92,17 +92,16 @@ class AuthController {
         }
     }
 
-    async check(req, res, next) {
+    async refresh(req, res, next) {
         try {
             const {refresh_token: refreshToken} = req.body
             const data = tokenService.validateRefresh(refreshToken)
             const dbToken = await tokenService.findToken(refreshToken)
-
             if (!data || !dbToken || data._id !== dbToken?.user?.toString()) {
                 return next(ApiError.unauthorizedError())
             }
 
-            const tokens = await tokenService.generate({ _id: data._id })
+            const tokens = await tokenService.generate({ _id: data._id, email: data.email, role: data.role })
 
             await tokenService.save(data._id, tokens.refreshToken)
 

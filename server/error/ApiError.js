@@ -1,7 +1,4 @@
 module.exports = class ApiError extends Error {
-    status;
-    errors;
-
     constructor(status, message) {
         super();
         this.status = status;
@@ -17,6 +14,6 @@ module.exports = class ApiError extends Error {
     }
 
     static internalError(message) {
-        return new ApiError(500, "Непредвиденная ошибка", message);
+        return new ApiError(500, "Ошибка сервера. Попробуйте позже.", message);
     }
 }

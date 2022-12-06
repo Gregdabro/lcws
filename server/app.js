@@ -2,9 +2,9 @@ const express = require("express")
 const mongoose = require("mongoose")
 const config = require ("config")
 const chalk = require ("chalk")
+const routes = require("./routes")
 const cors = require ("cors")
 const initDatabase = require("./startUp/initDatabase")
-const routes = require("./routes")
 const errorHandler = require("./middleware/ErrorHandlingMiddleware")
 
 const app = express()
@@ -19,6 +19,7 @@ const PORT = config.get("port") ?? 8080
 
 async function start() {
     try {
+        // todo: после develop удалить!
         mongoose.connection.once("open", () => {
             initDatabase()
         })

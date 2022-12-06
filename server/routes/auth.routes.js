@@ -14,7 +14,12 @@ router.post("/login", [
     check("password", "Пароль не может быть пустым").exists()
 ], authController.login)
 
-router.post("/logout", authController.logout)
-router.get("/refresh", authController.check)
+router.post("/token", authController.refresh)
+
+// todo: реализовать logout
+// router.post("/logout", authController.logout)
+
+// todo: реализовать delete User
+// router.delete("/user/:userId", authController.remove)
 
 module.exports = router

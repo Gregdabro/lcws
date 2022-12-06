@@ -12,7 +12,6 @@ module.exports = function(role) {
             }
 
             const data = tokenService.validateAccess(token)
-            console.log("authMiddleware: data", data)
             if (!data) {
                 return res.status(401).json({message: 'Unauthorized'})
             }
