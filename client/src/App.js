@@ -1,6 +1,7 @@
 import './App.scss';
 import Header from "./components/Header/Header";
 import { Redirect, Route, Switch } from "react-router-dom";
+import {MAIN_ROUTE, AUTH_ROUTE, PRODUCT_ROUTE, CART_ROUTE, CONTACT_ROUTE, ABOUT_ROUTE} from "./utils/consts";
 import ProductsLayout from "./layouts/ProductsLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import MainPage from "./pages/MainPage";
@@ -13,12 +14,12 @@ function App() {
     <div className="App">
         <Header />
         <Switch>
-            <Route path="/" exact component={MainPage} />
-            <Route path="/auth" component={AuthLayout} />
-            <Route path="/products/:id?" component={ProductsLayout} />
-            <Route path="/basket" component={BasketPage} />
-            <Route path="/contact" component={ContactPage} />
-            <Route path="/about" component={AboutPage} />
+            <Route path={MAIN_ROUTE} exact component={MainPage} />
+            <Route path={AUTH_ROUTE} component={AuthLayout} />
+            <Route path={PRODUCT_ROUTE + "/:id?"} component={ProductsLayout} />
+            <Route path={CART_ROUTE} component={BasketPage} />
+            <Route path={CONTACT_ROUTE} component={ContactPage} />
+            <Route path={ABOUT_ROUTE} component={AboutPage} />
             <Redirect from="*" to="/" />
         </Switch>
     </div>

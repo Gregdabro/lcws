@@ -170,7 +170,7 @@ const ProductListPage = () => {
     const displaySkeleton = false
 
     return (
-        <div>
+        <div style={{paddingTop: 200}}>
             <ProductList>
                 {displaySkeleton ?
                     new Array(skeletonCount)

@@ -1,4 +1,6 @@
-import logo from "../assets/img/logo.svg";
+import logo1 from "../assets/img/logo-1.svg";
+import logo2 from "../assets/img/logo-2.svg";
+import logo from "../assets/img/logo-main.svg";
 import pinewood_bridle from "../assets/img/bridle/pinewood_bridle.png";
 import mayfair_bridle from "../assets/img/bridle/mayfair_bridle.png";
 import aspley_bridle from "../assets/img/bridle/aspley_bridle.png";
@@ -21,6 +23,8 @@ import winchester_bridle from "../assets/img/bridle/winchester_bridle.png";
 
 const IMAGES = {
     logo,
+    logo1,
+    logo2,
     pinewood_bridle,
     mayfair_bridle,
     aspley_bridle,
