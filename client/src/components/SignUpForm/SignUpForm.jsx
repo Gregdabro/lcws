@@ -3,10 +3,27 @@ import styles from "./SignUpForm.module.scss"
 import TextField from "../common/form/textField/textField";
 import {validator} from "../../utils/validator";
 import {validatorConfig} from "./utils";
-import authService from "../../services/auth.service";
+// import authService from "../../services/auth.service";
+import { useSelector, useDispatch } from "react-redux";
+// import {useHistory} from "react-router-dom";
+import {clearMessage} from "../../store/messageSlice";
+import { signUp } from "../../store/authSlice"
 
 
 const SignUpForm = () => {
+    const [loading, setLoading] = useState(false);
+    const [successful, setSuccessful] = useState(false);
+    const { message } = useSelector((state) => state.message);
+    console.log("Error message:", message)
+    console.log("loading:", loading)
+    console.log("successful:", successful)
+    // const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(clearMessage());
+    }, [dispatch]);
+
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -38,15 +55,38 @@ const SignUpForm = () => {
     //     console.log("response:", response)
     // }
 
-    const handleSubmit = async (e) => {
+    // const handleSubmitt = async (e) => {
+    //     e.preventDefault();
+    //     const isValid = validate();
+    //     if (!isValid) return;
+    //     const newData = {
+    //         ...data
+    //     };
+    //     await authService.register({ name: newData.name, email: newData.email, password: newData.password });
+    //     console.log("newData:", newData);
+    // };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         const newData = {
             ...data
         };
-        await authService.register({ name: newData.name, email: newData.email, password: newData.password });
-        console.log("newData:", newData);
+        setLoading(true);
+        setSuccessful(false);
+        dispatch(signUp({ name: newData.name, email: newData.email, password: newData.password }))
+            .unwrap()
+            .then(() => {
+                setSuccessful(true);
+                // history.push("/");
+            })
+            .catch(() => {
+                setSuccessful(false);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
 

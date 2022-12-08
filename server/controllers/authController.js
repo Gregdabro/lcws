@@ -40,7 +40,7 @@ class AuthController {
             const tokens = await tokenService.generate({ _id: newUser._id, email, role: newUser.role})
             await tokenService.save(newUser._id, tokens.refreshToken)
 
-            res.status(201).send({ ...tokens, userId: newUser._id })
+            res.status(201).send({ ...tokens, userId: newUser._id, newUser })
 
         } catch (e) {
             return next(ApiError.internalError(e.message))

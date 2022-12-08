@@ -7,14 +7,28 @@ const httpAuth = axios.create({
 });
 
 const authService = {
-    register: async ({ name, email, password }) => {
+    signUp: (username, email, password) => {
+        return httpAuth
+            .post("registration", {
+                username,
+                email,
+                password,
+            })
+            .then((response) => {
+                if (response.data.accessToken) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                }
+                return response;
+            });
+    },
+    register: async ({name, email, password}) => {
         const { data } = await httpAuth.post("registration", {
             name,
             email,
             password
         });
         localStorageService.setTokens({...data})
-        console.log("registration data:", data)
+        localStorage.setItem("user", JSON.stringify(data));
         return data;
     },
     login: async ({ email, password }) => {
