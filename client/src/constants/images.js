@@ -11,7 +11,7 @@ import damask_bridle from "../assets/img/bridle/damask_bridle.png";
 import fillis_bridle from "../assets/img/bridle/fillis_bridle.png";
 import garrison_bridle from "../assets/img/bridle/garrison_bridle.png";
 import horseshoe_bridle from "../assets/img/bridle/horseshoe_bridle.png";
-import london_dee_bridle from "../assets/img/bridle/london_dee_bridle.png";
+import london_bridle from "../assets/img/bridle/london_bridle.png";
 import roller_buckle_bridle from "../assets/img/bridle/roller_buckle_bridle.png";
 import stirrup_bridle from "../assets/img/bridle/stirrup_bridle.png";
 import swage_bridle from "../assets/img/bridle/swage_bridle.png";
@@ -35,7 +35,7 @@ const IMAGES = {
     fillis_bridle,
     garrison_bridle,
     horseshoe_bridle,
-    london_dee_bridle,
+    london_bridle,
     roller_buckle_bridle,
     stirrup_bridle,
     swage_bridle,

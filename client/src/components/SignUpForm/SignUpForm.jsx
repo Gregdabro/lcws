@@ -3,6 +3,7 @@ import styles from "./SignUpForm.module.scss"
 import TextField from "../common/form/textField/textField";
 import {validator} from "../../utils/validator";
 import {validatorConfig} from "./utils";
+import authService from "../../services/auth.service";
 
 
 const SignUpForm = () => {
@@ -32,13 +33,19 @@ const SignUpForm = () => {
 
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    // const signUp = async (data) => {
+    //     const response = await registration(data)
+    //     console.log("response:", response)
+    // }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         const newData = {
             ...data
         };
+        await authService.register({ name: newData.name, email: newData.email, password: newData.password });
         console.log("newData:", newData);
     };
 
