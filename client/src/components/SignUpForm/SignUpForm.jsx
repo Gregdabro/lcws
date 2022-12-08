@@ -1,111 +1,128 @@
-import React, {useState} from 'react';
-import { toast } from "react-toastify"
-import {registration} from "../../services/userAPI";
-// import {Button, Card, Container, Form, Row} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
 import styles from "./SignUpForm.module.scss"
+import TextField from "../common/form/textField/textField";
+import {validator} from "../../utils/validator";
+import {validatorConfig} from "./utils";
 
 
 const SignUpForm = () => {
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [data, setData] = useState({
+        name: "",
+        email: "",
+        password: ""
+    });
+    const [errors, setErrors] = useState({});
 
-    const click = async () => {
-        try {
-            const data = await registration(email, password);
-            console.log(data)
-        } catch (e) {
-            toast.error(e.message);
-        }
+    const handleChange = (target) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+    };
 
-    }
+    useEffect(() => {
+        validate();
+    }, [data]);
 
+    const validate = () => {
+        const errors = validator(data, validatorConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
-    // const signUp = async () => {
-    //     try {
-    //         const response = await registration(email, password, userName)
-    //         console.log(response)
-    //     } catch (e) {
-    //         console.log(e.message)
-    //     }
-    // }
+    const isValid = Object.keys(errors).length === 0;
 
-    // return (
-    //     <Container
-    //         className="d-flex justify-content-center align-items-center"
-    //         style={{height: window.innerHeight - 54}}
-    //     >
-    //         <Card style={{width: 600}} className="p-5">
-    //             <Form className="d-flex flex-column">
-    //                 <Form.Control
-    //                     className="mt-3"
-    //                     placeholder="Введите ваш email..."
-    //                     value={email}
-    //                     onChange={e => setEmail(e.target.value)}
-    //                 />
-    //                 <Form.Control
-    //                     className="mt-3"
-    //                     placeholder="Введите ваш пароль..."
-    //                     value={password}
-    //                     onChange={e => setPassword(e.target.value)}
-    //                     type="password"
-    //                 />
-    //                 <Row className="d-flex justify-content-between mt-3 pl-3 pr-3">
-    //                     <Button
-    //                         variant={"outline-success"}
-    //                         onClick={click}
-    //                     >
-    //                         Регистрация
-    //                     </Button>
-    //                 </Row>
-    //
-    //             </Form>
-    //         </Card>
-    //     </Container>
-    // );
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
+        const newData = {
+            ...data
+        };
+        console.log("newData:", newData);
+    };
+
 
     return (
-        <div className={styles.signUp}>
-            <form>
-                <h2 className={styles.title}>SignUp Form </h2>
-                <div className={styles.inputBox}>
-                    <input
-                        type="text"
-                        placeholder="Введите имя"
-                        required
-                        value={name}
-                        onChange={e => setName(e.target.value)}
+        <div className={styles.signUpForm}>
+            <div className={styles.formWrapper}>
+                <form onSubmit={handleSubmit}>
+                    <h2>SignUp Form</h2>
+                    <TextField
+                        label="Name"
+                        name="name"
+                        value={data?.name}
+                        onChange={handleChange}
+                        error={errors.name}
                     />
-                    <div className={styles.underline}></div>
-                </div>
-                <div className={styles.inputBox}>
-                    <input
-                        type="text"
-                        placeholder="Введите email"
-                        required
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={data?.email}
+                        onChange={handleChange}
+                        error={errors.email}
                     />
-                    <div className={styles.underline}></div>
-                </div>
-                <div className={styles.inputBox}>
-                    <input
-                        type="password"
-                        placeholder="Введите пароль"
-                        required
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                    <TextField
+                        label="Password"
+                        name="password"
+                        value={data?.password}
+                        onChange={handleChange}
+                        error={errors.password}
                     />
-                    <div className={styles.underline}></div>
-                </div>
-                <button type="submit" onClick={click}>Sign Up</button>
-            </form>
-            <p className={styles.link}>
-                <span> Already have account? </span>
-                <a href='/auth/login'>Log In</a>
-            </p>
+                    <button
+                        type="submit"
+                        disabled={!isValid}
+                    >
+                        Sign Up
+                    </button>
+                    <p className={styles.signInlLink}>
+                        <span> Already have account? </span>
+                        <a href='/auth/login'>Log In</a>
+                    </p>
+                </form>
+
+            </div>
         </div>
     );
+
+
+
+
+
+
+    // return (
+    //     <form onSubmit={handleSubmit}>
+    //         <TextField
+    //             label="Электронная почта"
+    //             name="email"
+    //             value={data.email}
+    //             onChange={handleChange}
+    //             error={errors.email}
+    //         />
+    //         <TextField
+    //             label="Имя"
+    //             name="name"
+    //             value={data.name}
+    //             onChange={handleChange}
+    //             error={errors.name}
+    //         />
+    //         <TextField
+    //             label="Пароль"
+    //             type="password"
+    //             name="password"
+    //             value={data.password}
+    //             onChange={handleChange}
+    //             error={errors.password}
+    //         />
+    //         <button
+    //             className="btn btn-primary w-100 mx-auto"
+    //             type="submit"
+    //             disabled={!isValid}
+    //         >
+    //             Submit
+    //         </button>
+    //     </form>
+    // );
 };
 
 export default SignUpForm;

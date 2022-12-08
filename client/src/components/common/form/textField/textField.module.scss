@@ -1,0 +1,45 @@
+.inputBox{
+  position: relative;
+  margin: 30px 0;
+  border-bottom: 2px solid #343434;
+
+  .inputWrapper {
+    position: relative;
+    input {
+      width: 500px;
+      height: 40px;
+      font-size: 16px;
+      color: #343434;
+      padding: 0 5px;
+      background: transparent;
+      border: none;
+      outline: none;
+
+      &:focus~label,
+      &:valid~label{
+        top: -5px;
+      }
+    }
+
+    .label {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      color: #979797;
+      pointer-events: none;
+      transition: .5s;
+    }
+  }
+
+  .error {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    color: orangered;
+    pointer-events: none;
+    transition: .5s;
+
+  }
+}

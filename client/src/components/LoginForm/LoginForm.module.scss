@@ -1,111 +1,102 @@
-.loginForm{
+.loginForm {
   position: relative;
-  max-width: 700px;
-  width: 100%;
+  width: 700px;
+  height: 500px;
   background: #fff;
-  padding: 25px 30px;
-  border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 40px;
+  overflow: hidden;
 
 
-  form {
-    margin-top: 30px;
+  .formWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
 
-    .title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 20px 0 10px 0;
-    }
 
-    .inputBox {
-      width: 100%;
-      height: 45px;
-      margin-top: 20px;
-      position: relative;
+    form {
 
-      input {
-        height: 100%;
-        width: 100%;
-        outline: none;
-        font-size: 1rem;
-        border: none;
+      h2 {
+        font-size: 30px;
+        color: #343434;
+        text-align: center;
+      }
 
-        &:focus ~ .underline{
-          &::after {
-            transform: scaleX(1);
-            transform-origin: left;
+      .inputBox{
+        position: relative;
+        margin: 30px 0;
+        border-bottom: 2px solid #343434;
+
+        input {
+          width: 320px;
+          height: 40px;
+          font-size: 16px;
+          color: #343434;
+          padding: 0 5px;
+          background: transparent;
+          border: none;
+          outline: none;
+
+          &:focus~label,
+          &:valid~label{
+            top: -5px;
           }
         }
+
+        label {
+          position: absolute;
+          top: 50%;
+          left: 5px;
+          transform: translateY(-50%);
+          color: #979797;
+          pointer-events: none;
+          transition: .5s;
+        }
       }
 
-      .underline {
+      button {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        background: #343434;
+        color: #fff;
+        box-shadow: 0 0 10px #979797;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        outline: none;
 
-
-        &::before {
-          content: "";
-          position: absolute;
-          height: 2px;
-          width: 100%;
-          background: #ccc;
-          left: 0;
-          bottom: 0;
-          transition: all 0.3s ease;
+        &:disabled {
+          background: #979797;
+          pointer-events: none;
         }
-
-        &::after {
-          content: "";
-          position: absolute;
-          height: 2px;
-          width: 100%;
-          left: 0;
-          bottom: 0;
-          background: linear-gradient(to right, #979797 0%, #343434 100%);
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: all 0.3s ease;
-        }
-
       }
 
     }
 
+    .signInlLink {
+      font-size: 14px;
+      text-align: center;
+      margin: 15px 0;
 
-    button {
-      cursor: pointer;
-      margin-top: 30px;
-      height: 45px;
-      border-radius: 5px;
-      border: none;
-      width: 100%;
-      color: #fff;
-      font-size: 1rem;
-      background-color: #343434;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background-color: #979797;
-        transition: all 0.3s ease;
+      p {
+        color: #343434;
       }
+      a {
+        color: royalblue;
+        text-decoration: none;
+        font-weight: 500;
 
-    }
-
-  }
-
-  .link{
-    margin-top: 30px;
-
-    a {
-      color: #313bac;
-      transition: color .3s ease;
-
-      &:hover {
-        color: #979797;
-        text-decoration: underline;
-        transition: color .3s ease;
-
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
-
-
 }
