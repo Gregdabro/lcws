@@ -5,6 +5,7 @@ const authController = require("../controllers/authController")
 
 
 router.post("/registration", [
+    check('name', "Имя пользователя не может быть пустым").notEmpty(),
     check("email", "Некорректный email").isEmail(),
     check("password", "Минимальная длина пароля 8 символов").isLength({ min: 8 })
 ], authController.registration)
