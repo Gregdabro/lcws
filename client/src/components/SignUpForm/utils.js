@@ -1,3 +1,5 @@
+import * as Yup from "yup";
+
 export const validatorConfig = {
     email: {
         isRequired: {
@@ -38,3 +40,13 @@ export const validatorConfig = {
         }
     }
 };
+
+export const signUpSchema = Yup.object({
+    password: Yup.string()
+        .min(4, "Password must contain at least 4 symbols")
+        .required("Required"),
+    email: Yup.string().email("Invalid email address").required("Required"),
+    name: Yup.string()
+        .min(3, "Name must contain at least 3 symbols")
+        .required("Required")
+});

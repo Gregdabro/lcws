@@ -28,7 +28,7 @@ class AuthController {
 
             const hashedPassword = await bcrypt.hash(password, 12)
             const userRole = await Role.findOne({value: "USER"})
-            const newUser = await User.create({
+            const user = await User.create({
                 name,
                 email,
                 role: role || userRole.value,
@@ -37,10 +37,10 @@ class AuthController {
             // todo: реализовать корзину
             // await Basket.create({userId: newUser._id})
 
-            const tokens = await tokenService.generate({ _id: newUser._id, email, role: newUser.role})
-            await tokenService.save(newUser._id, tokens.refreshToken)
+            const tokens = await tokenService.generate({ _id: user._id, email, role: user.role})
+            await tokenService.save(user._id, tokens.refreshToken)
 
-            res.status(201).send({ ...tokens, userId: newUser._id, newUser })
+            res.status(201).send({ ...tokens, userId: user._id, user })
 
         } catch (e) {
             return next(ApiError.internalError(e.message))
@@ -76,7 +76,7 @@ class AuthController {
             const tokens = await tokenService.generate({ _id: existingUser._id, email, role: existingUser.role })
             await tokenService.save(existingUser._id, tokens.refreshToken)
 
-            res.status(200).send({ ...tokens, userId: existingUser._id })
+            res.status(200).send({ ...tokens, userId: existingUser._id, user: existingUser })
 
         } catch (e) {
             return next(ApiError.internalError(e.message))

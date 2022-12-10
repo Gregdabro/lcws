@@ -1,7 +1,7 @@
 import React from "react";
 
 const ContactPage = () => {
-    return (<div>
+    return (<div style={{display: "flex", height: "100vh", justifyContent: "center", alignItems: "center"}}>
         ContactPage
         </div>);
 };

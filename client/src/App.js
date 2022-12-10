@@ -9,25 +9,33 @@ import MainPage from "./pages/MainPage";
 import BasketPage from "./pages/BasketPage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
+import withRouter from "./hoc/withRouter";
+import withRedux from "./hoc/whithRedux";
+import AppLoader from "./hoc/appLoader";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
     <div className="App">
         <Header />
-        <BrowserRouter>
-            <Switch>
-                <Route path={MAIN_ROUTE} exact component={MainPage} />
-                <Route path={AUTH_ROUTE} component={AuthLayout} />
-                <Route path={PRODUCT_ROUTE + "/:id?"} component={ProductsLayout} />
-                <Route path={CART_ROUTE} component={BasketPage} />
-                <Route path={CONTACT_ROUTE} component={ContactPage} />
-                <Route path={ABOUT_ROUTE} component={AboutPage} />
-                <Redirect from="*" to="/" />
-            </Switch>
-        </BrowserRouter>
+        <AppLoader>
+            <BrowserRouter>
+                <Switch>
+                    <Route path={MAIN_ROUTE} exact component={MainPage} />
+                    <Route path={AUTH_ROUTE} component={AuthLayout} />
+                    <Route path={PRODUCT_ROUTE + "/:id?"} component={ProductsLayout} />
+                    <Route path={CART_ROUTE} component={BasketPage} />
+                    <Route path={CONTACT_ROUTE} component={ContactPage} />
+                    <Route path={ABOUT_ROUTE} component={AboutPage} />
+                    <Redirect from="*" to="/" />
+                </Switch>
+            </BrowserRouter>
+        </AppLoader>
         <ToastContainer />
     </div>
   );
 }
 
-export default App;
+const AppWithStoreAndRoutes = withRedux(withRouter(App))
+
+export default AppWithStoreAndRoutes;

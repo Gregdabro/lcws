@@ -1,11 +1,15 @@
 import authReducer from "./authSlice";
-import messageReducer from "./messageSlice";
+import productsReducer from "./productSlice";
+import categoryReducer from "./categorySlice";
+import colorReducer from "./colorSlice";
 
 const { combineReducers, configureStore } = require("@reduxjs/toolkit");
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    message: messageReducer,
+    products: productsReducer,
+    categories: categoryReducer,
+    colors: colorReducer
 });
 
 export function createStore() {

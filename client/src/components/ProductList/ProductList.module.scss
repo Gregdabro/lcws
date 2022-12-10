@@ -1,16 +1,17 @@
 .productList {
   display: grid;
-  gap: 50px 25px;
+  gap: 50px 50px;
+  grid-template-columns: repeat(3, 1fr);
 
-  @media (min-width: 575px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (min-width: 992px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  //@media (min-width: 575px) {
+  //  grid-template-columns: 1fr 1fr;
+  //}
+  //@media (min-width: 992px) {
+  //  grid-template-columns: repeat(3, 1fr);
+  //}
+  //@media (min-width: 1200px) {
+  //  grid-template-columns: repeat(4, 1fr);
+  //}
 }
 
 
@@ -22,16 +23,17 @@
     }
 
     .cardActionList {
-      right: 20px;
+      right: 0;
       opacity: 1;
+      transition: all .3s ease;
     }
   }
 
   .cardBanner {
-    background: var(--cultured);
+    padding-top: 20px;
+    background: #f3f0f1;
     border-radius: 10px;
     position: relative;
-    height: 350px;
     overflow: hidden;
 
     .imageContain {
@@ -44,21 +46,23 @@
 
     .cardBadge {
       position: absolute;
-      top: 20px;
-      background: var(--safetyorange);
-      color: var(--white);
+      top: 10px;
+      background: orangered;
+      color: white;
+      font-weight: 600;
       padding: 5px 10px;
       font-family: var(--ff-roboto);
-      font-size: 1rem;
+      font-size: 16px;
     }
   }
 
   .cardActionList {
+    display: flex;
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: -20px;
     opacity: 0;
-    transition: var(--transition-1);
+    transition: all .3s ease;
 
     .cardActionItem {
       position: relative;
@@ -78,6 +82,9 @@
 
         svg {
           display: block;
+          font-size: 25px;
+          font-weight: 900;
+          color: #343434;
         }
 
         &:hover,
@@ -101,8 +108,10 @@
     }
 
     .cardTitle {
-      text-transform: capitalize;
+      text-transform: uppercase;
+      font-weight: 500;
       margin-bottom: 12px;
+
 
       a {
         color: inherit;

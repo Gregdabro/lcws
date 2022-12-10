@@ -3,15 +3,18 @@ import styles from "./LoginForm.module.scss"
 import TextField from "../common/form/textField/textField";
 import {validator} from "../../utils/validator";
 import {validatorConfig} from "./utils";
-import authService from "../../services/auth.service";
+import {useDispatch} from "react-redux";
+import {login} from "../../store/authSlice";
 
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
     const [data, setData] = useState({
         email: "",
         password: ""
     });
-    const [errors, setErrors] = useState({});
+
 
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -32,15 +35,14 @@ const LoginForm = () => {
 
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         const newData = {
             ...data
         };
-        await authService.login({ email: newData.email, password: newData.password });
-        console.log("newData:", newData);
+        dispatch(login({ email: newData.email, password: newData.password }))
     };
 
 
@@ -74,7 +76,6 @@ const LoginForm = () => {
                         <a href='/auth/signup'>Sign In</a>
                     </p>
                 </form>
-
             </div>
         </div>
     );
